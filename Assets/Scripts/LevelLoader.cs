@@ -8,19 +8,23 @@ public class LevelLoader : MonoBehaviour
 {
     public Animator transition;
     public float transitionTime = 1f;
+    public TriggerExit trigger;
+    public ScoreController score;
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (trigger.triggerExit)
         {
-            Debug.Log("Mouse");
-            LoadNextLevel();
-        }    
+            StartOver();
+            trigger.triggerExit = false;
+            
+        }
+          
     }
 
-    public void LoadNextLevel()
+    public void StartOver()
     {
-        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+        StartCoroutine(LoadLevel(0));
     }
 
     IEnumerator LoadLevel(int levelIndex)
@@ -28,8 +32,10 @@ public class LevelLoader : MonoBehaviour
         // Play animation
         transition.SetTrigger("Start");
         // Wait
+        score.increaseScore = true;
         yield return new WaitForSeconds(transitionTime);
         // Load Scene
         SceneManager.LoadScene(levelIndex);
+
     }
 }
