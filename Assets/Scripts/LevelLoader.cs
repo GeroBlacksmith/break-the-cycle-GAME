@@ -10,6 +10,7 @@ public class LevelLoader : MonoBehaviour
     public float transitionTime = 1f;
     public TriggerExit trigger;
     public ScoreController score;
+    public BreakTheCycle cycle;
     // Update is called once per frame
     void Update()
     {
@@ -19,12 +20,16 @@ public class LevelLoader : MonoBehaviour
             trigger.triggerExit = false;
             
         }
+        if (cycle.breackTheCycle)
+        {
+            CycleBroken();
+        }
           
     }
 
     public void StartOver()
     {
-        StartCoroutine(LoadLevel(0));
+        StartCoroutine(LoadLevel(1));
     }
 
     IEnumerator LoadLevel(int levelIndex)
@@ -37,5 +42,10 @@ public class LevelLoader : MonoBehaviour
         // Load Scene
         SceneManager.LoadScene(levelIndex);
 
+    }
+
+    public void CycleBroken()
+    {
+        StartCoroutine(LoadLevel(2));
     }
 }

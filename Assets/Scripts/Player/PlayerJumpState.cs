@@ -13,9 +13,10 @@ public class PlayerJumpState : PlayerBaseState
     {
         player.GetComponent<Rigidbody2D>().velocity = new Vector2(player.horzMove * player.speed * Time.fixedDeltaTime, player.GetComponent<Rigidbody2D>().velocity.y);
         if (player.horzMove < 0)
-            player.GetComponent<SpriteRenderer>().flipX = true;
+            player.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
         if (player.horzMove > 0)
-            player.GetComponent<SpriteRenderer>().flipX = false;
+            player.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        
     }
 
     public override void OnCollisionEnter(PlayerController player, Collision2D collision)
