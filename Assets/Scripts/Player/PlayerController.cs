@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
-    public GameObject bullet;
     public PlayerBaseState currentState;
     public PlayerBaseState CurrentState
     {
@@ -34,6 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         currentState.OnCollisionEnter(this, collision);
     }
+    
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -42,9 +42,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         currentState.Update(this);
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(bullet);
+            gameObject.GetComponent<BulletController>().Shoot();
         }
     }
     public void TransitionToState(PlayerBaseState state)
@@ -52,5 +52,17 @@ public class PlayerController : MonoBehaviour
         currentState = state;
         currentState.EnterState(this);
         Debug.Log(currentState);
+    }
+    public void Die()
+    {
+        Debug.Log("DIE PLAYER!");
+
+        StartCoroutine(GameOver());
+        gameObject.GetComponent<Animator>().SetTrigger("die");
+    }
+    IEnumerator GameOver()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(1);
     }
 }

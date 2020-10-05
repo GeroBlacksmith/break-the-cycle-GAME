@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-
+    public GameObject enemy;
     public float speed = 20f;
     public Rigidbody2D rb;
     // Start is called before the first frame update
@@ -14,6 +14,10 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.gameObject.tag == "Enemy")
+        {
+        Destroy(collision.gameObject);  
+        }
         Destroy(gameObject);
     }
 
